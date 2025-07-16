@@ -1,8 +1,16 @@
+import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
+from dotenv import load_dotenv
 
-# Update the password and user if needed
-DATABASE_URL = "mysql+pymysql://root:vtuflswOKSDWDZkVytNDeqSEQWpgEWEV@interchange.proxy.rlwy.net:23585/railway"
+# Load .env file (only for local dev)
+load_dotenv()
+
+# Read the environment variable
+DATABASE_URL = os.getenv("DATABASE_URL")
+
+if not DATABASE_URL:
+    raise ValueError("DATABASE_URL environment variable not set")
 
 engine = create_engine(DATABASE_URL, pool_pre_ping=True)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
