@@ -37,8 +37,10 @@ def get_filtered_books(
     if topics:
         topic_filters = []
         for t in topics:
-            topic_filters.append(Subject.name.ilike(f"%{t}%"))
-            topic_filters.append(Bookshelf.name.ilike(f"%{t}%"))
+            topic_filters.extend([
+                Subject.name.ilike(f"%{t}%"),
+                Bookshelf.name.ilike(f"%{t}%")
+            ])
         query = query.filter(or_(*topic_filters))
 
     if author:
